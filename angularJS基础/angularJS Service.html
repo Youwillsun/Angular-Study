@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+</head>
+
+<body>
+    <!-- $location服务 -->
+    <!-- <div ng-app="myApp" ng-controller="myCtrl">
+        <p> 当前页面的url:</p>
+        <h3>{{myUrl}}</h3>
+    </div>
+
+    <p>该实例使用了内建的 $location 服务获取当前页面的 URL。</p>
+
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $location) {
+            console.log($location);
+            $scope.myUrl = $location.absUrl();
+        });
+    </script> -->
+
+    <!-- $http服务 -->
+    <!-- <div ng-app="myApp" ng-controller="myCtrl">
+
+        <p>欢迎信息:</p>
+
+        <h1>{{myWelcome}}</h1>
+
+    </div>
+
+    <p> $http 服务向服务器请求信息，返回的值放入变量 "myWelcome" 中。</p>
+
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $http) {
+            $http.get("welcome.htm").then(function (response) {
+                $scope.myWelcome = response.data;
+            });
+        });
+    </script> -->
+
+    <!-- $timeout服务 $timeout 服务对应了 JS window.setTimeout 函数。-->
+    <!-- <div ng-app="myApp" ng-controller="myCtrl">
+
+        <p>两秒后显示信息:</p>
+
+        <h1>{{myHeader}}</h1>
+
+    </div>
+
+    <p>$timeout 访问在规定的毫秒数后执行指定函数。</p>
+
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $timeout) {
+            $scope.myHeader = "Hello World!";
+            $timeout(function () {
+                $scope.myHeader = "How are you today?";
+            }, 2000);
+        });
+    </script> -->
+
+    <!-- $interval服务  $interval 服务对应了 JS window.setInterval 函数。-->
+    <!-- <div ng-app="myApp" ng-controller="myCtrl">
+
+        <p>现在时间是:</p>
+
+        <h1>{{theTime}}</h1>
+
+    </div>
+
+    <p>$interval 访问在指定的周期(以毫秒计)来调用函数或计算表达式。</p>
+
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $interval) {
+            $scope.theTime = new Date().toLocaleTimeString();
+            $interval(function () {
+                $scope.theTime = new Date().toLocaleTimeString();
+            }, 1000);
+        });
+    </script> -->
+
+    <!-- 自定义服务 -->
+    <div ng-app="myApp" ng-controller="myCtrl">
+
+        <p>255 的16进制是:</p>
+
+        <h1>{{hex}}</h1>
+
+    </div>
+
+    <p>自定义服务，用于转换16进制数：</p>
+
+    <script>
+        var app = angular.module('myApp', []);
+
+        app.service('hexafy', function () {
+            this.myFunc = function (x) {
+                return x.toString(16);
+            }
+        });
+        app.controller('myCtrl', function ($scope, hexafy) {
+            $scope.hex = hexafy.myFunc(255);
+        });
+    </script>
+</body>
+
+</html>

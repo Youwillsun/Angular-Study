@@ -1,0 +1,27 @@
+<p>data-request works!</p>
+
+<button (click)=getData()>get请求数据</button>
+
+<br>
+<br>
+<br>
+<ul>
+  <li *ngFor="let item of list">{{item.title}}</li>
+</ul>
+<hr>
+<br>
+<br>
+<br>
+<button (click)=doLogin()>post提交数据</button>
+<hr>
+<br>
+<br>
+<br>
+<button (click)=getJsonpData()>通过jsonp获取服务器数据（跨域的一种解决方案）
+</button>
+<hr>
+<br>
+<br>
+<br>
+<button (click)=getAxiosData()>通过第三方模块获取服务器的数据
+</button>

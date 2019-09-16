@@ -1,0 +1,17 @@
+<p>news works!</p>
+<br>
+<br>
+<br>
+
+<a [routerLink]="[ '/newscontent' ]">新闻详情</a>
+
+<br>
+<br>
+<ul>
+  <li *ngFor="let item of list;let key=index;">
+    <!-- <a href="">{{key}}--{{item}}</a> -->
+
+    <!-- 通过url传值[get传值] -->
+    <a [routerLink]="[ '/newscontent' ]" [queryParams]="{aid:key}">{{key}}--{{item}}</a>
+  </li>
+</ul>

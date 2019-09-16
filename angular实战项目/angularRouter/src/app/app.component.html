@@ -1,0 +1,12 @@
+<h2>我是根组件</h2>
+
+<header class="header">
+  <!-- 这样写里面的值是动态的 -->
+  <a [routerLink]="[ '/home' ]" routerLinkActive="active">首页</a>
+  <!-- 这样写里面的值是静态的 -->
+  <a routerLink="/news" routerLinkActive="active">新闻</a>
+
+  <a [routerLink]="[ '/product' ]" routerLinkActive="active">商品</a>
+</header>
+
+<router-outlet></router-outlet>

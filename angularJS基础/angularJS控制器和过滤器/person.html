@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+</head>
+
+<body>
+    <div ng-app="myApp" ng-controller="personCtrl">
+
+        名: <input type="text" ng-model="firstName"><br>
+        姓: <input type="text" ng-model="lastName"><br>
+        <br>
+        姓名: {{fullName()}}
+
+        <!-- 表达式中添加过滤器 -->
+        <p>姓名大写：{{lastName | uppercase}}</p>
+        <p>姓名小写：{{lastName | lowercase}}</p>
+
+    </div>
+    <script src="personController.js"></script>
+</body>
+
+</html>
