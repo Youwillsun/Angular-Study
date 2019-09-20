@@ -7,7 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NewsComponent } from './components/news/news.component';
 
 // 在根组件里引入自定义模块,挂在到imports里
-import { UserModule } from './module/user/user.module'
+import { UserModule } from './module/user/user.module';
 
 @NgModule({
   declarations: [

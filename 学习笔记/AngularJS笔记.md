@@ -433,13 +433,16 @@ angular cli的服务类似于VueX，可以用来存储我们的公共方法，�
 
 【注意，我们在创建子组件时，建议直接创建在父组件的文件夹里，这样看起来更有逻辑。】
 
-### angular cli 中自定义模块
+### 在angular cli 中自定义模块
 
 1. 创建模块的命令
 
    ```js
    // 创建一个module文件夹，并创建了一个user组件
    ng g module module/user
+   
+   // 如果在模块中，需要使用路由的话，我们需要使用命令
+   ng g module module/user --routing
    ```
 
 2. 在模块里创建组件【创建服务也是基本一样】，用法笔记中有，模块里引入服务，需要手动创建`providers`
@@ -483,6 +486,83 @@ angular cli的服务类似于VueX，可以用来存储我们的公共方法，�
    **但是，这是暴露了我们user模块里的user根组件，我们现在在外部依然使用不了模块里的子组件。当然，如果我们把子组件挂载到user根组件上是可以显示的。**
 
 5. 如果要在外部使用我们自定义模块里的子组件，我们也需要把自定义模块里的子组件暴露出来，这样，我们在外部的组件中就能使用了。【注意，由于在外部我们引入了当前自定义模块，所以不需要在引入自定义模块里的子组件】
+
+#### 自定义模块实现懒加载
+
+1. 首先我们需要创建一个带路由的自定义模块
+
+   ```js
+   ng g module module/article --routing
+   ```
+
+2. 在自定义模块的路由文件里，配置路由
+
+   ```js
+   // 由于模块里没有子组件。所以路径是空的
+   const routes: Routes = [
+     { path: '', component: ArticleComponent }
+   ];
+   ```
+
+   + 如果在自定义模块里还有其他子组件，想要加载时，只需要在对顶的父组件路由模块引入，然后配置即可
+
+   ```js
+   const routes: Routes = [
+     { path: '', component: ArticleComponent },
+       
+       // 如果在这个定义模块中还存在profile和plist组件，我们只需这样配置
+     { path: 'profile', component: ProfileComponent },
+     { path: 'plist', component: PlistComponent }
+   ];
+   ```
+
+   + 这样我们就可以通过路由，跳转到，我们自定义模块里的子组件上。
+
+   **如果我们只是单纯的这样做，我们自定义模块里的子组件，其实还是挂在到了外部的根组件上。**
+
+   + 所以我们可以参照前面的父子路由嵌套，把自定义模块里的子组件挂在到自定模块的父组件上。
+
+     ```js
+     const routes: Routes = [
+       {
+       	path: '', component: ArticleComponent,
+       	children:[
+             { path: 'profile', component: ProfileComponent },
+             { path: 'plist', component: PlistComponent }
+       	]
+       }
+     ];
+     ```
+
+     **注意别忘了在自定义模块的父组件html文件，加上`<router-outlet></router-outlet> `**
+
+3. 在外部的组件，html里，设置routerlink，别忘了要有`<router-outlet></router-outlet> `
+
+   ```html
+   <a [routerLink]="[ '/article' ]">路由懒加载【文章模块】</a>
+   ```
+
+4. 然后在外部组件的路由里，配置自定义模块路径。
+
+   【注意：不需要在外部的组件里引入自定义模块了】
+
+   ```js
+   const routes: Routes = [
+     { path: 'article', loadChildren: './module/article/article.module#ArticleModule' }
+   ];
+   ```
+
+   **注意写法：path里直接就是自定义模块的名称，然后loadChildren里是模块的路径，路径后面要带一个#号，#号后面是模块的类名。【可以参考自定义模块的TS文件里的最后一行的那个名称】**
+
+   + 如果想让页面打开时，默认加载指定的自定义模块，就需要用到重定向
+
+     ```js
+     const routes: Routes = [
+       { path: 'article', loadChildren: './module/article/article.module#ArticleModule' },
+       // 重定向
+       { path: '**', loadChildren: 'article' }
+     ];
+     ```
 
 ## Angular cli中集成 jquery+bootstrap+echarts依赖
 
