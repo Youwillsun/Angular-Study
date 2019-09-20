@@ -433,6 +433,57 @@ angular cli的服务类似于VueX，可以用来存储我们的公共方法，�
 
 【注意，我们在创建子组件时，建议直接创建在父组件的文件夹里，这样看起来更有逻辑。】
 
+### angular cli 中自定义模块
+
+1. 创建模块的命令
+
+   ```js
+   // 创建一个module文件夹，并创建了一个user组件
+   ng g module module/user
+   ```
+
+2. 在模块里创建组件【创建服务也是基本一样】，用法笔记中有，模块里引入服务，需要手动创建`providers`
+
+   ```js
+   // 在user模块里创建了一个components文件夹，在components文件夹下创建了一个profile组件
+   ng g component module/user/componetns/profile
+   // 在user模块里创建了一个service文件夹，在service文件夹下创建了一个common服务
+   ng g service module/user/service/common
+   ```
+
+   如果我们直接，在user模块里创建一个user组件,则会直接在user模块增加html scss等文件，这就和根模块结构类似了。
+
+   ```js
+   ng g component module/user
+   ```
+
+   **此时，我们的user组件，就相当于在user模块中的根组件，其他组件是子组件**
+
+3. 如果我们想在外部使用我们自定义的模块中的组件，那么我们需要手动暴露出去
+
+   ```js
+   //在@NgModule里  []里是组件名称
+   exports：[UserCompomemt]
+   ```
+
+4. 暴露之后，在外部使用我们的模块里的组件时，先引入我们自定义模块，然后挂载到imports里
+
+   ```js
+   // 在根组件里引入自定义模块,挂在到imports里
+   import { UserModule } from './module/user/user.module'
+   
+   // 挂载
+    imports: [
+       UserModule
+     ],
+   ```
+
+   这样我们就可以在外部组件中使用了。
+
+   **但是，这是暴露了我们user模块里的user根组件，我们现在在外部依然使用不了模块里的子组件。当然，如果我们把子组件挂载到user根组件上是可以显示的。**
+
+5. 如果要在外部使用我们自定义模块里的子组件，我们也需要把自定义模块里的子组件暴露出来，这样，我们在外部的组件中就能使用了。【注意，由于在外部我们引入了当前自定义模块，所以不需要在引入自定义模块里的子组件】
+
 ## Angular cli中集成 jquery+bootstrap+echarts依赖
 
 ### 集成jquery依赖
