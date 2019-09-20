@@ -7,11 +7,20 @@
 
 <br>
 <br>
-<ul>
-  <li *ngFor="let item of list;let key=index;">
+<!-- 通过url传值[get传值] -->
+<!-- <ul>
+  <li *ngFor="let item of list;let key=index;"> -->
+
     <!-- <a href="">{{key}}--{{item}}</a> -->
 
-    <!-- 通过url传值[get传值] -->
-    <a [routerLink]="[ '/newscontent' ]" [queryParams]="{aid:key}">{{key}}--{{item}}</a>
+    <!-- <a [routerLink]="[ '/newscontent' ]" [queryParams]="{aid:key}">{{key}}--{{item}}</a>
+  </li>
+</ul> -->
+
+<h2>动态路由</h2>
+
+<ul>
+  <li *ngFor="let item of list;let key = index;">
+    <a [routerLink]="[ '/newscontent/', key ]">{{key}} --- {{item}}</a>
   </li>
 </ul>

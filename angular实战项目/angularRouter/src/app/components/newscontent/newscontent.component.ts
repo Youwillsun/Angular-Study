@@ -10,14 +10,21 @@ import { ActivatedRoute } from '@angular/router'
 })
 export class NewscontentComponent implements OnInit {
 
-  constructor(public route:ActivatedRoute) { }
+  constructor(public route: ActivatedRoute) { }
 
   ngOnInit() {
-    console.log(this.route.queryParams);
+    // console.log(this.route.queryParams);
 
-    this.route.queryParams.subscribe((data)=>{
+    // get 传值时取值方法
+    // this.route.queryParams.subscribe((data) => {
+    //   console.log(data);
+    // });
+
+    // 动态路由传值取值方法
+    this.route.params.subscribe((data) => {
       console.log(data);
-    })
+    });
+
   }
 
 }

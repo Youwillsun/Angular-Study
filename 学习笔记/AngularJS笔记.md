@@ -280,6 +280,158 @@ angular cli的服务类似于VueX，可以用来存储我们的公共方法，�
      })
      ```
 
+##### get传值通过js跳转路由
+
+1. 在父组件里设置点击事件.
+
+2. 在对应的TS文件里写逻辑
+
+   1. 要通过get传值的方法通过js跳转路由，除了需要引入 Router 模块外，还需要引入 NavigationExtras  模块。
+
+      ```js
+      // 通过js动态跳转路由时，需要引入路由模块
+      // get传值跳转路由，需要引入NavigationExtras
+      import { Router, NavigationExtras } from '@angular/router';
+      ```
+
+   2. 在点击事件函数里写
+
+      ```js
+        goNews() {
+          // 跳转并进行get传值
+          const queryParams: NavigationExtras = {
+            queryParams:{'aid': '123'}
+          };
+      
+          this.router.navigate(['/news'], queryParams);
+        }
+      ```
+
+      【在不引入NavigationExtras模块的情况下，依然是可以通过get传值跳转路由的，不过引入NavigationExtras更加标准】
+
+#### 动态路由传值
+
+1. 首先在需要配置路由，在需要跳转到的路由中配置。【重点在aid】
+
+   ```js
+     {
+       path: 'newscontent/:aid', component: NewscontentComponent
+     }
+   ```
+
+2. 在父组件即【点击跳转的组件】中，通过路由传值。
+
+   ```html
+   <ul>
+     <li *ngFor="let item of list;let key = index;">
+       <a [routerLink]="[ '/newscontent/', key ]">{{key}} --- {{item}}</a>
+     </li>
+   </ul>
+   ```
+
+   上面的 `key`即为传递的值。
+
+3. 获取路由的值。【和上面get传值获取值的配置基本相同，不同点在于获取路由的值】
+
+   ```js
+   // 动态路由获取值
+   this.route.params.subscribe((data) => {
+     console.log(data);
+   });
+   ```
+
+##### 动态路由js跳转
+
+1. 在父组件上通过路由跳转，设置点击事件
+
+   ```html
+   <!-- 跳转到商品详情，并传入了静态的值123 在页面里跳转 -->
+   <a [routerLink]="[ '/productcontent', '123' ]">跳转到商品详情</a>
+   
+   <!-- 在商品详情页，设置点击事件，通过js跳转路由 -->
+   <button (click)="goNewsContent()">js跳转路由到商品详情【动态路由】</button>
+   <button (click)="goHome()">js跳转路由到首页【普通路由】</button>
+   ```
+
+2. 在父组件相应的TS文件里配置
+
+   1. 首先要先引入 路由模块
+
+      ```js
+      // 通过js动态跳转路由时，需要引入路由模块
+      import { Router } from '@angular/router';
+      ```
+
+   2. 在constructor里声明一下
+
+      ```js
+      constructor(public router: Router) { }
+      ```
+
+   3. 跳转路由
+
+      ```js
+        goNewsContent() {
+          // 跳转路由  【如果配置动态路由传值，这里是需要传入值的】
+          this.router.navigate(['/newscontent/', '123']);
+        }
+      
+        // 普通路由，没有配置动态路由传值
+        goHome(){
+          this.router.navigate(['/home']);
+        }
+      ```
+
+
+#### angular cli 中的父子路由嵌套
+
+**父子路由嵌套的应用场景：[参考链接](https://angular.cn/docs)**
+
+> 这是angular的文档模块，是一个很好的父子路由嵌套案例：
+
++ 当用户点击导航栏的文档时，跳转到文档模块
++ 同时，文档模块下，有分为左右两个模块，点击左侧的菜单模块，右侧的区域随之改变，并且页面不刷新。
++ 这就是angular的父子嵌套，在文档这个父组件下，又嵌套了一个子组件。
+
+**父子路由用法注意事项**
+
+1. 首先要配置路由模块，与以往配置模块不同，如果是父子嵌套路由，那么子组件的路由，我们可以配置在`children[]`数组里。
+
+   ```js
+     {
+       path: 'home', component: HomeComponent,
+         children: [
+           { path: 'XXX', component: XXX },
+           // 路由重定向
+           { path: 'XXX', redirectTo: XXX }
+         ]
+     }
+   ```
+
+2. 然后在父组件里，设置路由连接。
+
+   ```html
+   <!-- home是父组件，welcome是子组件 -->
+   <a [routerLink]="[ '/home/welcome']">跳转</a>
+   ```
+
+   注意写路径的时候，路径是`/父路由/子路由`
+
+3. 到此，我们的路由还是无法跳转的，无法去加载子路由。
+
+   + 在根组件，我们知道，路由的显示，是通过`<router-outlet></router-outlet> `。
+
+   + 所以，在父组件里也是一样的，我们需要给子组件设置一个在父组件中显示的坑。
+
+     我们需要在父组件右侧区域的盒子里也配置
+
+      ```html
+     <router-outlet></router-outlet>
+      ```
+
+如果想要增加点击显示效果，就增加一个`routerLinkActive="active" `；
+
+【注意，我们在创建子组件时，建议直接创建在父组件的文件夹里，这样看起来更有逻辑。】
 
 ## Angular cli中集成 jquery+bootstrap+echarts依赖
 

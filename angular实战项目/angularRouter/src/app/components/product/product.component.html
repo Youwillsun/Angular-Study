@@ -1,1 +1,21 @@
 <p>product works!</p>
+<br>
+<br>
+
+<!-- 跳转到商品详情，并传入了静态的值123 -->
+<a [routerLink]="[ '/productcontent', '123' ]">跳转到商品详情</a>
+
+<br>
+<br>
+
+<button (click)="goNewsContent()">js跳转路由到商品详情【动态路由】</button>
+
+<br>
+<br>
+
+<button (click)="goHome()">js跳转路由到首页【普通路由】</button>
+
+<br>
+<br>
+
+<button (click)="goNews()">get传值跳转路由</button>
