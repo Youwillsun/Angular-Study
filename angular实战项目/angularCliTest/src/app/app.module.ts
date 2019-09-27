@@ -16,9 +16,12 @@ import { FormComponent } from './components/form/form.component';
 import { SearchComponent } from './components/search/search.component';
 import { TodolistComponent } from './components/todolist/todolist.component';
 
-import {StorageService} from "./services/storage.service";
+import {StorageService} from './services/storage.service';
 import { HeaderComponent } from './components/header/header.component';
-import { DataRequestComponent } from './components/data-request/data-request.component'
+import { DataRequestComponent } from './components/data-request/data-request.component';
+import { NgBootstrapComponent } from './components/ng-bootstrap/ng-bootstrap.component';
+// 引入bootstrap
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   // 配置组件
@@ -30,17 +33,19 @@ import { DataRequestComponent } from './components/data-request/data-request.com
     SearchComponent,
     TodolistComponent,
     HeaderComponent,
-    DataRequestComponent
+    DataRequestComponent,
+    NgBootstrapComponent
   ],
   // 配置模块
   imports: [
+    NgbModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
     HttpClientJsonpModule
   ],
   // 配置服务
-  providers: [StorageService,HttpserviceService],
+  providers: [StorageService, HttpserviceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
