@@ -115,7 +115,7 @@ angular cli的服务类似于VueX，可以用来存储我们的公共方法，�
    import { Component, OnInit, ViewChild, Input } from '@angular/core';
    ```
 
-3. 然后在业务逻辑，通过`@INput() title:any`即可接受传递过来的值。
+3. 然后在业务逻辑，通过`@Input() title:any`即可接受传递过来的值。
 
 4. 在页面上直接使用`{{title}}`即可看到效果。
 
