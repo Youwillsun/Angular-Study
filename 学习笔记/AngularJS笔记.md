@@ -309,7 +309,9 @@ angular cli的服务类似于VueX，可以用来存储我们的公共方法，�
 
       【在不引入NavigationExtras模块的情况下，依然是可以通过get传值跳转路由的，不过引入NavigationExtras更加标准】
 
-#### 动态路由传值
+#### 动态路由传值及获取参数
+
+##### 动态路由routerLink跳转
 
 1. 首先在需要配置路由，在需要跳转到的路由中配置。【重点在aid】
 
@@ -381,7 +383,6 @@ angular cli的服务类似于VueX，可以用来存储我们的公共方法，�
           this.router.navigate(['/home']);
         }
       ```
-
 
 #### angular cli 中的父子路由嵌套
 
