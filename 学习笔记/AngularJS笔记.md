@@ -201,8 +201,7 @@ angular cli的服务类似于VueX，可以用来存储我们的公共方法，�
        })
    ```
 
-
-### 在angular cli中配置路由
+### angular cli中的路由
 
 **使用angular cli创建的带路由的项目里，存放路由的坑是**`<router-outlet></router-outlet> `
 
@@ -488,7 +487,7 @@ angular cli的服务类似于VueX，可以用来存储我们的公共方法，�
 
 5. 如果要在外部使用我们自定义模块里的子组件，我们也需要把自定义模块里的子组件暴露出来，这样，我们在外部的组件中就能使用了。【注意，由于在外部我们引入了当前自定义模块，所以不需要在引入自定义模块里的子组件】
 
-#### 自定义模块实现懒加载
+#### 自定义模块实现路由懒加载
 
 1. 首先我们需要创建一个带路由的自定义模块
 
@@ -564,6 +563,161 @@ angular cli的服务类似于VueX，可以用来存储我们的公共方法，�
        { path: '**', loadChildren: 'article' }
      ];
      ```
+
+### 路由守卫
+
+#### 路由守卫使用情况简介：
+
+1. 只有当用户已经登录并拥有某些权限的时候才可以进入某些路由。
+2. 一个由多个表单组件组成的向导，例如注册流程，用户只有在当前的路由组件中填写了满足要求的信息才可以导航到下一个路由
+3. 当用户未执行保存操作而试图离开当前导航时提醒用户。
+
+#### 路由的三种守卫
+
+1. CanActivate：处理导航到某路由的情况。
+2. CanDeactivate：处理从当前路由离开的情况。
+3. Rsolve：在路由激活之前获取路由数据。
+
+#### 使用路由守卫
+
+##### CanActivate 实现登录判断用户是否合法
+
+1. 新建写路由守卫ts文件，例如：login.guard.ts
+
+2. 实现CanActivate接口：
+
+   ```js
+   import {CanActivate} from "@angular/router"
+   
+   export class LoginGuard implements CanActivate {
+   	// 这个方法，返回bool值，以此来决定路由请求是否通过
+       canActivate(){
+       	// 这里写逻辑
+       	-------------例如-------------
+       	// 如果loggedIn值大于0.5，判断为用户登录
+       	let loggedIn：boolean = Math.random() < 0.5;
+       	if(!loggedIn){
+               console.log("用户未登录");
+       	}
+           return loggedIn;
+           ------------------------------
+       }
+   }
+   ```
+
+3. 修改路由配置，加到对应的路由上
+
+   ```js
+   // 随便写的路由
+   {path："\",component:"gen",canActivate：[LoginGuard]}
+   
+   // canActivate是数组，可以指定多个路由守卫，届时路由守卫会逐个判断
+   ```
+
+4. 在router.js里，把LoginGuard进行依赖注入
+
+   ```js
+   @NgModule({
+       providers:[LoginGuard]
+   })
+   ```
+
+---
+
+##### CanDeactivate 实现用户离开时弹窗提示
+
+1. 新建写路由守卫ts文件，例如：unsave.guard.ts
+
+2. 实现CanDeactivate接口
+
+   ```js
+   // 需要引入两个文件
+   import {CanDeactivate} from "@angular/router"
+   import {yourcomponent} from "yourcomponent-path"
+   // CanDeactivate需要一个泛型，就是受保护的组件类型
+   export class UnsavedGuard implements CanDeactivate<yourcomponent>{
+       CanDeactivate(component: yourcomponent){
+           // 这里写逻辑
+           return window.confirm("是否要离开？"); // 为了简单，这里就直接返回了一个confirm
+       }
+   }
+   ```
+
+接下来就同 **实现登录判断用户是否合法** 第三四步，把`UnsavedGuard`加到对应的路由上，然后在providers里声明
+
+---
+
+##### Rsolve 解决请求加载较慢，页面上差值表达式值未显示，交互不好的问题、
+
+resolve守卫会在进入路由之前，预先从服务器上读取信息，在页面加载时，带着信息进到路由里，从而避免标题所说的问题。
+
+1. 新建一个resolve守卫文件，例如：product.resolve.ts
+
+2. 实现Resolve接口
+
+   ```js
+   import {Resolve} from "@angular/router"
+   // Resolve守卫同样需要一个泛型，这个泛型是你返回的信息的类型，例如：product类
+   
+   @Injectable() // 只要不是component都需要被@Injectable装饰器装饰
+   export class ProductResolve implements Resolve<Product>{
+       
+       // 只有被@Injectable装饰器装饰了，才能把路由注入进来
+       constructor(private router:Router){}
+       resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Product> | Observable<Product> {
+       	// 这样就可以拿到路由中的数据 【这是例子】
+       	let id：number = route.params["id"];
+       	//逻辑：如果id是1，怎么样，id是2怎么样。。。。
+           if(id === 1){
+   			return new Product(1, "ipone7");
+   		} else {
+       		// 跳转路由
+   			this.router.navigate('/');
+               return undefined;
+           }
+   	}
+   }
+   
+   // 声明的这个类，最好写在其他文件里，然后在resolve守卫文件里导入即可
+   export class Product {
+   	constructor(
+   		public id:number,
+   		public name: string
+   	){}
+   }
+   ```
+
+3. 把resolve守卫加到对应的路由上
+
+   ```js
+   {path："\",component:"gen",resolve：{
+       product：ProductResolve
+   }}
+   ```
+
+4. 在providers里声明
+
+   ```js
+   @NgModule({
+       providers:[ProductResolve]
+   })
+   ```
+
+5. 然后在接收的界面，我们要根据传过来的值，定义接收的值
+
+   ```js
+   // 比如在ProductComponent里接收
+   public proId:number;
+   public proName:string;
+   
+   ngOinit(){
+   	// 订阅传进来的数据
+       this.routeInfo.data.subscribe((data:{product:Product}) => {
+           this.proId = data.product.id;
+           this.proName = data.product.name;
+       })
+   }
+   ```
 
 ## Angular cli中集成 jquery+bootstrap+echarts依赖
 
