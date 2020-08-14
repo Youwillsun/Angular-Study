@@ -795,3 +795,32 @@ resolve守卫会在进入路由之前，预先从服务器上读取信息，在�
 
 5. 需要注意的是：echarts使用时需要初始化，初始化里获取的dom节点，最好还是使用官方提供的原生js的获取方式，使用jquery获取，可能会出错。
 
+## 升级Angular-CLI
+
+1. 卸载angular-cli
+
+   ```
+   npm uninstall -g angular-cli
+   ```
+
+2. 清除缓存
+
+   ```
+   npm cache clean -f
+   ```
+
+3. 到安装目录查看是否卸载干净
+
+   ```
+   find/usr -name ng
+   ```
+
+   若未卸载干净(第三步有内容输出)，则去到对应的目录删除；如若卸载干净(第三步未有内容输出).
+
+4. 安装最新版本
+
+   ```
+   npm install -g @angular/cli@latest
+   ```
+
+   
