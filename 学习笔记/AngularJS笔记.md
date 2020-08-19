@@ -564,7 +564,7 @@ angular cli的服务类似于VueX，可以用来存储我们的公共方法，�
      ];
      ```
 
-### 路由守卫
+### Angular cli 中的路由守卫
 
 #### 路由守卫使用情况简介：
 
@@ -718,6 +718,106 @@ resolve守卫会在进入路由之前，预先从服务器上读取信息，在�
        })
    }
    ```
+
+### Angualr cli中获取DOM元素
+
+**Angular中依然是不推荐直接操作dom元素，推荐通过  变量结合内置指令  的方式来进行。**
+
+#### 方法一：通过模板变量名获取单个dom元素
+
+这种方法主要用的是`ViewChild`属性装饰器，使用这个来从模板视图中获取匹配的元素。
+
+1. 首先在从`@angular/core`中引入ViewChild。
+
+   ```js
+   import {ViewChild} from '@angular/core'
+   ```
+
+2. 在模板元素(html 标签)中绑定变量
+
+   ```js
+   @Component({
+     selector: 'my-app',
+     template: `
+       <h1>Welcome to Angular World</h1>
+       <p #greet>Hello {{ name }}</p>
+     `,
+   })
+   
+   # #greet为绑定的变量
+   ```
+
+3. 获取元素【注意：Angular中视图的渲染是在`ngAfterViewInit`钩子函数之前完成，所以在此钩子函数中调用才能正确的获取查询的元素】
+
+   ```js
+   export class AppComponent {
+   
+     // 查询视图，并给视图起一个别名 【注意ElementRef同样需要在@angular/core中引入】
+     @ViewChild('greet') greetDiv: ElementRef;
+   
+     // 在钩子函数中输出
+     ngAfterViewInit() {
+       console.log(this.greetDiv.nativeElement);
+     }
+   }
+   ```
+
+#### 方法二： 通过ElementRef获取DOM元素
+
+这种获取DOM元素的方式较为选择，通过css的选择器实现。
+
+1. 在`@angular/core`中引入`ElementRef`
+
+   ```js
+   import {ElementRef} from '@angualr/core'
+   ```
+
+2. 在构造器中声明
+
+   ```typescript
+   constructor( public el: ElementRef) {}
+   ```
+
+3. 获取元素
+
+   ```js
+     ngOnInit(){
+       // .btn1 类名
+       let btn = this.el.nativeElement.querySelector('.btn1');
+       console.log(btn);
+     }
+    # 推荐在 ngAfterViewInit 钩子函数中获取
+   ```
+
+4. 通过选择器获取多个DOM,使用`querySelectorAll`
+
+   ```js
+     ngOnInit(){
+       // .btn1 类名
+       this.el.nativeElement.querySelectorAll('.btn1').forEach(item=>{
+           console.log(item);
+       });
+     }
+   ```
+
+#### 方法三：通过Renderer2获取元素
+
+这种方法和方法二类似，同样需要在`@angular/core`中引入`Renderer2`，然后在构造器中声明属性，然后使用。
+
+```js
+// 引入
+import { Renderer2} from '@angular/core';
+
+export class AppComponent {
+    // 声明
+  constructor( private render2: Renderer2){}
+  ngOnInit(){
+    // 使用
+    const child = this.render2.selectRootElement(".div1");
+    console.log(child);
+  }
+}
+```
 
 ## Angular cli中集成 jquery+bootstrap+echarts依赖
 
