@@ -1,0 +1,218 @@
+<div class="appContainer">
+  <button nz-button nzType="primary">Primary Button</button>
+  <button nz-button nzType="default">Default Button</button>
+  <button nz-button nzType="dashed">Dashed Button</button>
+  <button nz-button nzType="text">Text Button</button>
+  <a nz-button nzType="link">Link Button</a>
+
+  <br>
+
+  <button nz-button nzType="primary" nzShape="circle"><i nz-icon nzType="search"></i></button>
+  <button nz-button nzType="primary" nzShape="circle">A</button>
+  <button nz-button nzType="primary"><i nz-icon nzType="search"></i>Search</button>
+  <button nz-button nzType="default" nzShape="circle"><i nz-icon nzType="search"></i></button>
+  <button nz-button nzType="default"><i nz-icon nzType="search"></i>Search</button>
+
+  <br />
+
+  <button nz-button nzType="default" nzShape="circle"><i nz-icon nzType="search"></i></button>
+  <button nz-button nzType="default"><i nz-icon nzType="search"></i>Search</button>
+  <button nz-button nzType="dashed" nzShape="circle"><i nz-icon nzType="search"></i></button>
+  <button nz-button nzType="dashed"><i nz-icon nzType="search"></i>Search</button>
+  <br>
+  <br>
+
+  <nz-slider [(ngModel)]="size"></nz-slider>
+  <nz-space [nzSize]="size">
+    <nz-space-item>
+      <button nz-button nzType="primary">Button</button>
+    </nz-space-item>
+    <nz-space-item>
+      <button nz-button nzType="default">Default</button>
+    </nz-space-item>
+    <nz-space-item>
+      <button nz-button nzType="dashed">Dashed</button>
+    </nz-space-item>
+    <nz-space-item>
+      <a nz-button nzType="link">Link</a>
+    </nz-space-item>
+  </nz-space>
+
+  <br>
+
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <i nz-icon nzType="home"></i>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a><i nz-icon nzType="user"></i><span>Application List</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      Application
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+
+  <br>
+  <br>
+  <div class="wrapper">
+    <button nz-button nzType="primary" (click)="toggleCollapsed()">
+      <i nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+    </button>
+    <ul nz-menu nzMode="inline" nzTheme="dark" [nzInlineCollapsed]="isCollapsed">
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Navigation One' : ''"
+        nzSelected>
+        <i nz-icon nzType="mail"></i>
+        <span>Navigation One</span>
+      </li>
+      <li nz-submenu nzTitle="Navigation Two" nzIcon="appstore">
+        <ul>
+          <li nz-menu-item>Option 5</li>
+          <li nz-menu-item>Option 6</li>
+          <li nz-submenu nzTitle="Submenu">
+            <ul>
+              <li nz-menu-item>Option 7</li>
+              <li nz-menu-item>Option 8</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Navigation Three" nzIcon="setting">
+        <ul>
+          <li nz-menu-item>Option 9</li>
+          <li nz-menu-item>Option 10</li>
+          <li nz-menu-item>Option 11</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <br>
+  <br>
+  <nz-pagination [nzPageIndex]="2" [nzTotal]="500" nzShowQuickJumper></nz-pagination>
+  <br />
+  <nz-pagination [nzPageIndex]="2" [nzTotal]="500" nzShowQuickJumper nzDisabled></nz-pagination>
+
+  <br>
+  <br>
+
+  <nz-range-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-range-picker>
+  <br />
+  <nz-range-picker [nzShowTime]="true" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-range-picker>
+  <br />
+  <nz-range-picker nzMode="week" [(ngModel)]="date" (ngModelChange)="getWeek($event)"></nz-range-picker>
+  <br />
+  <nz-range-picker nzMode="month" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-range-picker>
+  <br />
+  <nz-range-picker nzMode="year" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-range-picker>
+
+  <br>
+  <br>
+
+  <form nz-form>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Fail</nz-form-label>
+      <nz-form-control nzValidateStatus="error" [nzSpan]="12" nzErrorTip="Should be combination of numbers & alphabets">
+        <input nz-input [ngModel]="'unavailable choice'" name="errorValid" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Warning</nz-form-label>
+      <nz-form-control nzValidateStatus="warning" [nzSpan]="12">
+        <input nz-input [ngModel]="'Warning'" name="warningValid" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Validating</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzValidateStatus="validating" nzHasFeedback
+        nzValidatingTip="I'm validating the content">
+        <input nz-input [ngModel]="'The content is being validated'" name="validating" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Success</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzValidateStatus="success" nzHasFeedback>
+        <input nz-input [ngModel]="'The content'" name="successValid" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Warning</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzValidateStatus="warning" nzHasFeedback
+        nzWarningTip="Should be combination of numbers & alphabets">
+        <input nz-input [ngModel]="'Warning'" name="warningHighValid" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Fail</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzValidateStatus="error" nzHasFeedback
+        nzErrorTip="Should be combination of numbers & alphabets">
+        <input nz-input [ngModel]="'unavailable choice'" name="invalidValid" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Success</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzValidateStatus="success" nzHasFeedback>
+        <nz-date-picker name="date-picker-success"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Warning</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzValidateStatus="warning" nzHasFeedback>
+        <nz-time-picker name="time-picker-warning"></nz-time-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Error</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzValidateStatus="error" nzHasFeedback>
+        <nz-select name="select-error" [ngModel]="'Option 1'">
+          <nz-option nzValue="Option 1" nzLabel="Option 1"></nz-option>
+          <nz-option nzValue="Option 2" nzLabel="Option 2"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Validating</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzValidateStatus="validating" nzHasFeedback>
+        <nz-select name="select-validate" [ngModel]="'Option 2'">
+          <nz-option nzValue="Option 1" nzLabel="Option 1"></nz-option>
+          <nz-option nzValue="Option 2" nzLabel="Option 2"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Success</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzValidateStatus="success" nzHasFeedback>
+        <nz-input-number name="inputnumber-success" style="width:100%"></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+  <br>
+  <br>
+  <h1>评分</h1>
+  <nz-rate [ngModel]="0" nzAllowHalf [nzCharacter]="characterIcon"></nz-rate>
+  <br />
+  <nz-rate [ngModel]="0" nzAllowHalf class="large" [nzCharacter]="characterEnLetter"></nz-rate>
+  <br />
+  <nz-rate [ngModel]="0" nzAllowHalf [nzCharacter]="characterZhLetter"></nz-rate>
+  <ng-template #characterIcon><i nz-icon nzType="heart"></i></ng-template>
+  <ng-template #characterZhLetter>好</ng-template>
+  <ng-template #characterEnLetter>A</ng-template>
+
+  <br>
+  <br>
+  <div [ngStyle]="{ height: '300px' }">
+    <div [ngStyle]="style">
+      <nz-slider nzVertical [ngModel]="30"></nz-slider>
+    </div>
+    <div [ngStyle]="style">
+      <nz-slider nzVertical nzRange [nzStep]="10" [ngModel]="[20, 50]"></nz-slider>
+    </div>
+    <div [ngStyle]="style">
+      <nz-slider nzVertical nzRange [nzMarks]="marks" [ngModel]="[26, 37]"></nz-slider>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <nz-switch [(ngModel)]="switchValue" [nzControl]="true" (click)="clickSwitch()" [nzLoading]="loading"></nz-switch>
+</div>
